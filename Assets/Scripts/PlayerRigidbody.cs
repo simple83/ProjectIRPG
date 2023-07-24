@@ -12,6 +12,15 @@ public class PlayerRigidbody : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButton(0))
+        {
+            Move();
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            Stop();
+        }//에디터에서만
+
 
         if (Input.touchCount > 0) // 터치가 발생한 경우
         {
