@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class CollisionHandler : MonoBehaviour
 {
-    // ÀÌº¥Æ®¸¦ Á¤ÀÇÇÒ µ¨¸®°ÔÀÌÆ® ¼±¾ğ
+    // ì´ë²¤íŠ¸ë¥¼ ì •ì˜í•  ë¸ë¦¬ê²Œì´íŠ¸ ì„ ì–¸
     public delegate void CollisionEvent(GameObject other);
 
-    // ½ÇÁ¦ ÀÌº¥Æ® ÀÎ½ºÅÏ½º »ı¼º
+    // ì‹¤ì œ ì´ë²¤íŠ¸ ì¸ìŠ¤í„´ìŠ¤ ìƒì„±
     public static event CollisionEvent OnCollisionOccurred;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Ãæµ¹ÀÌ ¹ß»ıÇÑ »ó´ë ¿ÀºêÁ§Æ®¸¦ ÀÌº¥Æ®·Î Àü´Ş
+        // ì¶©ëŒì´ ë°œìƒí•œ ìƒëŒ€ ì˜¤ë¸Œì íŠ¸ë¥¼ ì´ë²¤íŠ¸ë¡œ ì „ë‹¬
         OnCollisionOccurred?.Invoke(other.gameObject);
     }
 }

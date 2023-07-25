@@ -6,8 +6,8 @@ public class BattleScreen : MonoBehaviour
 {
     public void StartBattle(GameObject monster)
     {
-        // ÀüÅõ È­¸é Ç¥½Ã ¹× ÀüÅõ ½ÃÀÛ ·ÎÁ÷À» ±¸ÇöÇÕ´Ï´Ù.
-        // ¿¹¸¦ µé¾î, ÀüÅõ È­¸éÀ» È°¼ºÈ­ÇÏ°í ¸ó½ºÅÍ¿Í ÇÃ·¹ÀÌ¾îÀÇ ÀüÅõ¸¦ ½ÃÀÛÇÕ´Ï´Ù.
-        Debug.Log("ÀüÅõ ½ÃÀÛ!");
+        // ì „íˆ¬ í™”ë©´ í‘œì‹œ ë° ì „íˆ¬ ì‹œìž‘ ë¡œì§ì„ êµ¬í˜„í•©ë‹ˆë‹¤.
+        // ì˜ˆë¥¼ ë“¤ì–´, ì „íˆ¬ í™”ë©´ì„ í™œì„±í™”í•˜ê³  ëª¬ìŠ¤í„°ì™€ í”Œë ˆì´ì–´ì˜ ì „íˆ¬ë¥¼ ì‹œìž‘í•©ë‹ˆë‹¤.
+        Debug.Log("ì „íˆ¬ ì‹œìž‘!");
     }
 }

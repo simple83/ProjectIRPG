@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class TouchEventManager : MonoBehaviour
 {
-    // ÅÍÄ¡ ½ÃÀÛ ½Ã ÀÌº¥Æ®¸¦ Ã³¸®ÇÒ µ¨¸®°ÔÀÌÆ® ¼±¾ğ
+    // í„°ì¹˜ ì‹œì‘ ì‹œ ì´ë²¤íŠ¸ë¥¼ ì²˜ë¦¬í•  ë¸ë¦¬ê²Œì´íŠ¸ ì„ ì–¸
     public delegate void TouchStartEvent(Vector2 touchPosition);
 
-    // ÅÍÄ¡ Á¾·á ½Ã ÀÌº¥Æ®¸¦ Ã³¸®ÇÒ µ¨¸®°ÔÀÌÆ® ¼±¾ğ
+    // í„°ì¹˜ ì¢…ë£Œ ì‹œ ì´ë²¤íŠ¸ë¥¼ ì²˜ë¦¬í•  ë¸ë¦¬ê²Œì´íŠ¸ ì„ ì–¸
     public delegate void TouchEndEvent();
 
-    // ½ÇÁ¦ ÀÌº¥Æ® ÀÎ½ºÅÏ½º »ı¼º
+    // ì‹¤ì œ ì´ë²¤íŠ¸ ì¸ìŠ¤í„´ìŠ¤ ìƒì„±
     public static event TouchStartEvent OnTouchStart;
     public static event TouchEndEvent OnTouchEnd;
 
@@ -20,7 +20,7 @@ public class TouchEventManager : MonoBehaviour
     private void Update()
     {
 #if UNITY_EDITOR
-        // À¯´ÏÆ¼ ¿¡µğÅÍ¿¡¼­¸¸ ¸¶¿ì½º Å¬¸¯ °¨Áö
+        // ìœ ë‹ˆí‹° ì—ë””í„°ì—ì„œë§Œ ë§ˆìš°ìŠ¤ í´ë¦­ ê°ì§€
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 touchPosition = Input.mousePosition;
@@ -34,18 +34,18 @@ public class TouchEventManager : MonoBehaviour
         }
 #endif
 
-        // ÅÍÄ¡°¡ ¹ß»ıÇÑ °æ¿ì
+        // í„°ì¹˜ê°€ ë°œìƒí•œ ê²½ìš°
         if (Input.touchCount > 0)
         {
-            Touch touch = Input.GetTouch(0); // Ã¹ ¹øÂ° ÅÍÄ¡¿¡ ´ëÇÑ Á¤º¸ °¡Á®¿À±â
+            Touch touch = Input.GetTouch(0); // ì²« ë²ˆì§¸ í„°ì¹˜ì— ëŒ€í•œ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
 
-            if (touch.phase == TouchPhase.Began) // ÅÍÄ¡°¡ ½ÃÀÛµÈ °æ¿ì
+            if (touch.phase == TouchPhase.Began) // í„°ì¹˜ê°€ ì‹œì‘ëœ ê²½ìš°
             {
                 Vector2 touchPosition = touch.position;
                 OnTouchStart?.Invoke(touchPosition);
                 isTouching = true;
             }
-            else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled) // ÅÍÄ¡°¡ Á¾·áµÈ °æ¿ì
+            else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled) // í„°ì¹˜ê°€ ì¢…ë£Œëœ ê²½ìš°
             {
                 OnTouchEnd?.Invoke();
                 isTouching = false;

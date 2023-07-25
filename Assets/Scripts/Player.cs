@@ -5,29 +5,14 @@ using UnityEngine.Scripting.APIUpdating;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 1f;
-    void Start()
-    {
-        
-    }
+    int baseHP = 100;
+    int baseATK = 10;
+    int baseDEF = 10;
+    int baseLUK = 1;
 
-    void Update()
-    {
-        
-    }
-    void FixedUpdate()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            Move();
-        }
-    }
-    void Move() {
-        Vector3 mousePosition = Input.mousePosition;
+    int realHP;
+    int realATK;
+    int realDEF;
+    int realLUK;
 
-        Vector3 curpos = this.gameObject.transform.position;
-        Vector3 movePosition = Camera.main.ScreenToWorldPoint(mousePosition + new Vector3(0, 0, 10f));
-
-        transform.position += (movePosition-curpos) * moveSpeed * Time.deltaTime * 2;
-    }
 }

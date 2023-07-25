@@ -8,20 +8,20 @@ public class EventHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        // CollisionHandler Å¬·¡½ºÀÇ ÀÌº¥Æ® ÇÚµé·¯ µî·Ï
+        // CollisionHandler í´ë˜ìŠ¤ì˜ ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ë“±ë¡
         CollisionHandler.OnCollisionOccurred += HandleCollision;
     }
 
     private void OnDisable()
     {
-        // CollisionHandler Å¬·¡½ºÀÇ ÀÌº¥Æ® ÇÚµé·¯ µî·Ï ÇØÁ¦ (¸Ş¸ğ¸® ´©¼ö ¹æÁö)
+        // CollisionHandler í´ë˜ìŠ¤ì˜ ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ë“±ë¡ í•´ì œ (ë©”ëª¨ë¦¬ ëˆ„ìˆ˜ ë°©ì§€)
         CollisionHandler.OnCollisionOccurred -= HandleCollision;
     }
 
-    // ÀÌº¥Æ® ÇÚµé·¯
+    // ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬
     private void HandleCollision(GameObject other)
     {
-        // ¸ó½ºÅÍ¿Í Ãæµ¹ÇßÀ» ¶§ ÀüÅõ È­¸éÀ¸·Î ÀüÈ¯
+        // ëª¬ìŠ¤í„°ì™€ ì¶©ëŒí–ˆì„ ë•Œ ì „íˆ¬ í™”ë©´ìœ¼ë¡œ ì „í™˜
         if (other.CompareTag("Monster"))
         {
             battleScreen.StartBattle(other);

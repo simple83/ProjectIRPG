@@ -30,7 +30,7 @@ public class TouchHandler : MonoBehaviour
     {
         Vector3 targetPosition;
 
-        // ¸¶¿ì½º Å¬¸¯ À§Ä¡ ¶Ç´Â Ã¹ ¹øÂ° ÅÍÄ¡ À§Ä¡ °¡Á®¿À±â
+        // ë§ˆìš°ìŠ¤ í´ë¦­ ìœ„ì¹˜ ë˜ëŠ” ì²« ë²ˆì§¸ í„°ì¹˜ ìœ„ì¹˜ ê°€ì ¸ì˜¤ê¸°
 #if UNITY_EDITOR
         targetPosition = Input.mousePosition;
 #else
@@ -44,15 +44,15 @@ public class TouchHandler : MonoBehaviour
         }
 #endif
 
-        // ÇÃ·¹ÀÌ¾îÀÇ ÇöÀç À§Ä¡¿Í ÀÌµ¿ÇÒ À§Ä¡ °è»ê
+        // í”Œë ˆì´ì–´ì˜ í˜„ì¬ ìœ„ì¹˜ì™€ ì´ë™í•  ìœ„ì¹˜ ê³„ì‚°
         Vector3 currentPosition = transform.position;
         Vector3 movePosition = Camera.main.ScreenToWorldPoint(targetPosition + new Vector3(0, 0, 10f));
 
-        // ÀÌµ¿ ¹æÇâ°ú °Å¸® °è»ê
+        // ì´ë™ ë°©í–¥ê³¼ ê±°ë¦¬ ê³„ì‚°
         Vector3 direction = (movePosition - currentPosition).normalized;
         float distance = Vector3.Distance(movePosition, currentPosition);
 
-        // Rigidbody2D¸¦ »ç¿ëÇÏ¿© ¿òÁ÷ÀÓ Àû¿ë
+        // Rigidbody2Dë¥¼ ì‚¬ìš©í•˜ì—¬ ì›€ì§ì„ ì ìš©
         rb.velocity = direction * moveSpeed * distance;
     }
 
