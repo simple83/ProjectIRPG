@@ -4,10 +4,28 @@ using UnityEngine;
 
 public class BattleScreen : MonoBehaviour
 {
-    public void StartBattle(GameObject monster)
+    public BattleUI battleUI;
+    public void StartBattle(GameObject enemy)
     {
-        // 전투 화면 표시 및 전투 시작 로직을 구현합니다.
-        // 예를 들어, 전투 화면을 활성화하고 몬스터와 플레이어의 전투를 시작합니다.
         Debug.Log("전투 시작!");
+        IEnemy enemyDataComponent = enemy.GetComponent<IEnemy>();
+
+        if (enemyDataComponent != null)
+        {
+            long hp = enemyDataComponent.GetHp();
+            long atk = enemyDataComponent.GetAtk();
+            long level = enemyDataComponent.Getlevel();
+            string name = enemyDataComponent.GetName();
+            Debug.Log(hp);
+            Debug.Log(atk);
+            Debug.Log(level);
+            Debug.Log(name);
+            battleUI.gameObject.SetActive(true);
+            battleUI.ShowUI(name, level, hp, atk);
+        }
+        else
+        {
+            Debug.Log("컴포넌트를 찾을 수 없습니다.");
+        }
     }
 }
