@@ -15,9 +15,6 @@ public class BattleUI : MonoBehaviour
         enemyNameText.text = name;
         enemyLevelText.text = "" + level;
         enemyAtkText.text = "" + atk;
-
-        // BattleUI를 활성화합니다.
-        gameObject.SetActive(true);
     }
 
     public void HideUI()

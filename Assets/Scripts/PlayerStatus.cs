@@ -5,27 +5,19 @@ using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerStatus : MonoBehaviour
 {
-    public long currentLevel = 1;
-    public long currentExp = 0;
-    public long currentStatusPoint = 0;
-    public int[] expToNextLevel;
-
-    public long baseHP = 100;
-    public long baseATK = 10;
-    public long baseDEF = 10;
-    public long baseLUK = 1;
+    //변수들은 GameManager에서 관리중
 
     private void LevelUp()
     {
-        currentExp -= expToNextLevel[currentLevel];
-        currentLevel++;
+        GameManager.instance.currentExp -= GameManager.instance.expToNextLevel[GameManager.instance.currentLevel];
+        GameManager.instance.currentLevel++;
     }
 
     public void GainExp(int expAmount)
     {
-        currentExp += expAmount;
+        GameManager.instance.currentExp += expAmount;
         // 레벨업 체크
-        while (currentExp >= expToNextLevel[currentLevel])
+        while (GameManager.instance.currentExp >= GameManager.instance.expToNextLevel[GameManager.instance.currentLevel])
         {
             LevelUp();
         }
@@ -33,23 +25,23 @@ public class PlayerStatus : MonoBehaviour
 
     public long GetCurrentLevel()
     {
-        return currentLevel;
+        return GameManager.instance.currentLevel;
     }
     public long GetBaseHP()
     {
-        return baseHP;
+        return GameManager.instance.baseHP;
     }
 
     public long GetBaseATK()
     {
-        return baseATK;
+        return GameManager.instance.baseATK;
     }
     public long GetBaseDEF()
     {
-        return baseDEF;
+        return GameManager.instance.baseDEF;
     }
     public long GetBaseLUK()
     {
-        return baseLUK;
+        return GameManager.instance.baseLUK;
     }
 }
