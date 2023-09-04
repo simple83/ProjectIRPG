@@ -23,16 +23,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     //변수 모음
 
-    public long currentLevel = 1;
-    public long currentExp = 0;
-    public long currentStatusPoint = 0;
-    public int[] expToNextLevel;
-
-    public long baseHP = 100;
-    public long baseATK = 10;
-    public long baseDEF = 10;
-    public long baseLUK = 1;
+    
 }

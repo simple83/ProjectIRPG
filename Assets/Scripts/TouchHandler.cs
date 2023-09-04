@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TouchHandler : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class TouchHandler : MonoBehaviour
 
     private void Update()
     {
-        if (touchEventManager.IsTouching())
+        if (touchEventManager.IsTouching() && !EventSystem.current.IsPointerOverGameObject())
         {
             Move();
         }
@@ -56,7 +57,7 @@ public class TouchHandler : MonoBehaviour
         rb.velocity = direction * moveSpeed * distance;
     }
 
-    void Stop()
+    public void Stop()
     {
         rb.velocity = Vector2.zero;
     }

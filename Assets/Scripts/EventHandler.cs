@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EventHandler : MonoBehaviour
 {
-    [SerializeField] private BattleScreen battleScreen;
 
     private void OnEnable()
     {
@@ -24,7 +23,7 @@ public class EventHandler : MonoBehaviour
         // 몬스터와 충돌했을 때 전투 화면으로 전환
         if (other.CompareTag("Monster"))
         {
-            battleScreen.StartBattle(other);
+            BattleManager.Instance.StartBattle(other);
         }
     }
 }

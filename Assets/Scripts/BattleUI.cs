@@ -8,13 +8,17 @@ public class BattleUI : MonoBehaviour
     public TextMeshProUGUI enemyLevelText;
     public TextMeshProUGUI enemyHpText;
     public TextMeshProUGUI enemyAtkText;
+    public Image enemySprite;
 
-    public void ShowUI(string name, long level, long hp, long atk)
+
+    public void ShowUI(string name, long level, long hp, long atk, Sprite image)
     {
         // UI 텍스트를 변경하여 적 정보를 표시합니다.
         enemyNameText.text = name;
         enemyLevelText.text = "" + level;
-        enemyAtkText.text = "" + atk;
+        enemySprite.sprite = image;
+        gameObject.SetActive(true);
+
     }
 
     public void HideUI()

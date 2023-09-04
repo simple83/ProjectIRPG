@@ -5,19 +5,47 @@ using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerStatus : MonoBehaviour
 {
-    //변수들은 GameManager에서 관리중
+    private static PlayerStatus instance;
+
+    public static PlayerStatus Instance
+    {
+        get { return instance; }
+    }
+
+    public long currentLevel = 1;
+    public long currentExp = 0;
+    public long currentStatusPoint = 0;
+    public int[] expToNextLevel;
+
+    public long baseHp = 100;
+    public long baseAtk = 10;
+    public long baseDef = 10;
+    public long baseLuk = 1;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // 이 오브젝트를 다른 씬에서도 유지
+        }
+        else
+        {
+            Destroy(gameObject); // 중복 제거
+        }
+    }
 
     private void LevelUp()
     {
-        GameManager.instance.currentExp -= GameManager.instance.expToNextLevel[GameManager.instance.currentLevel];
-        GameManager.instance.currentLevel++;
+        currentExp -= expToNextLevel[currentLevel];
+        currentLevel++;
     }
 
     public void GainExp(int expAmount)
     {
-        GameManager.instance.currentExp += expAmount;
+        currentExp += expAmount;
         // 레벨업 체크
-        while (GameManager.instance.currentExp >= GameManager.instance.expToNextLevel[GameManager.instance.currentLevel])
+        while (currentExp >= expToNextLevel[currentLevel])
         {
             LevelUp();
         }
@@ -25,23 +53,27 @@ public class PlayerStatus : MonoBehaviour
 
     public long GetCurrentLevel()
     {
-        return GameManager.instance.currentLevel;
-    }
-    public long GetBaseHP()
-    {
-        return GameManager.instance.baseHP;
+        return currentLevel;
     }
 
-    public long GetBaseATK()
+    public long GetBaseHp()
     {
-        return GameManager.instance.baseATK;
+        return baseHp;
     }
-    public long GetBaseDEF()
+
+    public long GetBaseAtk()
     {
-        return GameManager.instance.baseDEF;
+        return baseAtk;
     }
-    public long GetBaseLUK()
+
+    public long GetBaseDef()
     {
-        return GameManager.instance.baseLUK;
+        return baseDef;
+    }
+
+    public long GetBaseLuk()
+    {
+        return baseLuk;
     }
 }
+
