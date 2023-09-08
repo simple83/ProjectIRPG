@@ -42,23 +42,37 @@ public class BattleManager : MonoBehaviour
             //플레이어 선공
             if (canPlayerAttack)
             {
-                isfighting = !(Attack(CalculateDamage(playerAtk, enemyDef), ref enemyHp) == 0);
+                bool result = !(Attack(CalculateDamage(playerAtk, enemyDef), ref enemyHp) == 0);
                 Debug.Log("플레이어의 공격!");
                 Debug.Log("적의 남은 체력 : " + enemyHp);
                 
                 battleUI.UpdateEnemyHpText(enemyHp);
+                battleUI.UpdatePlayerHpText(playerBaseHp, playerCurrentHp);
                 canPlayerAttack = false;
                 StartCoroutine(PlayerTurnEnd());
+
+                if(result == false)
+                {
+                    Debug.Log("플레이어 승리!");
+                    isfighting = false;
+                }
             }
 
             if (canEnemyAttack)
             {
-                isfighting = !(Attack(CalculateDamage(enemyAtk, enemyDef), ref playerCurrentHp) == 0);
+                bool result = !(Attack(CalculateDamage(enemyAtk, enemyDef), ref playerCurrentHp) == 0);
                 Debug.Log("적의 공격!");
                 Debug.Log("플레이어의 남은 체력 : " + playerCurrentHp);
+                battleUI.UpdateEnemyHpText(enemyHp);
                 battleUI.UpdatePlayerHpText(playerBaseHp, playerCurrentHp);
                 canEnemyAttack = false;
                 StartCoroutine(EnemyTurnEnd());
+
+                if (result == false)
+                {
+                    Debug.Log("플레이어 패배...");
+                    isfighting = false;
+                }
             }
         }
     }
@@ -72,6 +86,12 @@ public class BattleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.8f);
         canPlayerAttack = true;
+    }
+    private IEnumerator StartBattleAfterClick()
+    {
+        Debug.Log("클릭하여 전투를 시작합니다.");
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        isfighting = true;
     }
 
     public int StartBattle(GameObject enemy)
@@ -110,7 +130,7 @@ public class BattleManager : MonoBehaviour
         // BattleUI 프리팹 로드 및 적용
         LoadBattleUI(name, enemyLevel, enemyHp, playerBaseHp, enemyimage);
         //이제 진짜 전투 시작!
-        isfighting = true;
+        StartCoroutine(StartBattleAfterClick());
         return 0;
     }
     public long[] GetEnemyData(GameObject enemy)
@@ -204,12 +224,12 @@ public class BattleManager : MonoBehaviour
     public long Attack(long Damage, ref long victimHp)
     {
         victimHp -= Damage;
-        if(victimHp <= 0)
+        if (victimHp <= 0)
         {
             victimHp = 0;
             return 0;
         }
-        return (victimHp - Damage);
+            return 1;
         
     }
 }
