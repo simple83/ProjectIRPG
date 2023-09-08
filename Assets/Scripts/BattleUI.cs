@@ -12,13 +12,15 @@ public class BattleUI : MonoBehaviour
     public Image enemySprite;
 
 
-    public void ShowUI(string name, long level, long hp, long atk, Sprite image)
+    public void ShowUI(string enemyName, long enemyLevel, long enemyHp, long playerBaseHp, Sprite image)
     {
         // UI 텍스트를 변경하여 적 정보를 표시합니다.
-        enemyNameText.text = name;
-        enemyLevelText.text = "" + level;
-        enemyHpText.text = "" + hp;
+        enemyNameText.text = enemyName;
+        enemyLevelText.text = "" + enemyLevel;
+        enemyHpText.text = "" + enemyHp;
+        playerHpText.text = ("" + (int)playerBaseHp) + "/" + ("" + (int)playerBaseHp);
         enemySprite.sprite = image;
+
         gameObject.SetActive(true);
 
     }
@@ -36,7 +38,7 @@ public class BattleUI : MonoBehaviour
     public void UpdatePlayerHpText(long playerBaseHp, long playerCurrentHp)
     {
 
-        playerHpText.text = ("" + (int)playerBaseHp) +"/"+ ("" + (int)playerCurrentHp);
+        playerHpText.text = ("" + (int)playerCurrentHp) +"/"+ ("" + (int)playerBaseHp);
     }
 }
 

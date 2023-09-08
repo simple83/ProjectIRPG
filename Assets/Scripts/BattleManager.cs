@@ -15,6 +15,12 @@ public class BattleManager : MonoBehaviour
         get { return instance; }
     }
 
+    long enemyHp = 1, enemyAtk = 0, enemyDef = 0, enemyLevel = 1;
+    long playerBaseHp = 1, playerCurrentHp = 1, playerAtk = 1, playerDef = 1, playerLuk = 1;
+    bool isfighting = false;
+    bool canPlayerAttack = true;
+    bool canEnemyAttack = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -28,17 +34,48 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    IEnumerator WaitForShortTime(float time)
+    private void Update()
     {
-        Debug.Log("대기 시작");
-        yield return new WaitForSeconds(time); // 2초 동안 대기
-        Debug.Log("대기 종료");
+        if(isfighting)
+        {
+            BattleUI battleUI = battleUIInstance.GetComponent<BattleUI>();
+            //플레이어 선공
+            if (canPlayerAttack)
+            {
+                isfighting = !(Attack(CalculateDamage(playerAtk, enemyDef), ref enemyHp) == 0);
+                Debug.Log("플레이어의 공격!");
+                Debug.Log("적의 남은 체력 : " + enemyHp);
+                
+                battleUI.UpdateEnemyHpText(enemyHp);
+                canPlayerAttack = false;
+                StartCoroutine(PlayerTurnEnd());
+            }
+
+            if (canEnemyAttack)
+            {
+                isfighting = !(Attack(CalculateDamage(enemyAtk, enemyDef), ref playerCurrentHp) == 0);
+                Debug.Log("적의 공격!");
+                Debug.Log("플레이어의 남은 체력 : " + playerCurrentHp);
+                battleUI.UpdatePlayerHpText(playerBaseHp, playerCurrentHp);
+                canEnemyAttack = false;
+                StartCoroutine(EnemyTurnEnd());
+            }
+        }
+    }
+
+    IEnumerator PlayerTurnEnd()
+    {
+        yield return new WaitForSeconds(0.8f);
+        canEnemyAttack = true;
+    }
+    IEnumerator EnemyTurnEnd()
+    {
+        yield return new WaitForSeconds(0.8f);
+        canPlayerAttack = true;
     }
 
     public int StartBattle(GameObject enemy)
     {
-        long enemyHp = 1, enemyAtk = 0, enemyDef = 0, enemyLevel = 1;
-        long playerBaseHp = 1, playerCurrentHp = 1, playerAtk = 1, playerDef = 1, playerLuk = 1;
         //적 정보 받아오기
         long[] enemyData = GetEnemyData(enemy);
         if (enemyData != null)
@@ -54,9 +91,7 @@ public class BattleManager : MonoBehaviour
         }
         string name = GetEnemyName(enemy);
         Sprite enemyimage = GetEnemySprite(enemy);
-        // BattleUI 프리팹 로드 및 적용
-        LoadBattleUI(name, enemyHp, enemyAtk, enemyLevel, enemyimage);
-        BattleUI battleUI = battleUIInstance.GetComponent<BattleUI>();
+        
         //플레이어 현재 스텟정보 받아오기
         long[] playerData = GetPlayerData();
         if (playerData != null)
@@ -72,31 +107,10 @@ public class BattleManager : MonoBehaviour
             Debug.Log("플레이어 정보를 받아오는데 실패했습니다.");
             return 0;
         }
-
+        // BattleUI 프리팹 로드 및 적용
+        LoadBattleUI(name, enemyLevel, enemyHp, playerBaseHp, enemyimage);
         //이제 진짜 전투 시작!
-        //클릭하면시작하게 기다리고싶음
-        while (true)
-        {
-            //플레이어 선공
-            bool isBattleEnd = (Attack(CalculateDamage(playerAtk, enemyDef), ref enemyHp) == 0); //return값이 0이면 배틀종료
-            battleUI.UpdateEnemyHpText(enemyHp);
-            Debug.Log("적 HP");
-            Debug.Log(enemyHp);
-            StartCoroutine(WaitForShortTime(0.8f));
-            if (isBattleEnd)
-            {
-                break;
-            }
-            else { }
-            isBattleEnd = (Attack(CalculateDamage(enemyAtk, enemyDef), ref playerCurrentHp) != 0);
-            battleUI.UpdatePlayerHpText(playerBaseHp, playerCurrentHp);
-            StartCoroutine(WaitForShortTime(0.8f));
-            if (isBattleEnd)
-            {
-                break;
-            }
-            else { }
-        }
+        isfighting = true;
         return 0;
     }
     public long[] GetEnemyData(GameObject enemy)
@@ -189,13 +203,13 @@ public class BattleManager : MonoBehaviour
     }
     public long Attack(long Damage, ref long victimHp)
     {
-        if(victimHp - Damage <= 0)
+        victimHp -= Damage;
+        if(victimHp <= 0)
         {
+            victimHp = 0;
             return 0;
         }
-        else
-        {
-            return (victimHp - Damage);
-        }
+        return (victimHp - Damage);
+        
     }
 }
