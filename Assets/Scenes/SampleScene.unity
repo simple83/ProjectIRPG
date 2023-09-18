@@ -708,7 +708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
-  atk: 100
+  atk: 8
   level: 5
   enemyName: "\uC2AC\uB77C\uC784 \uD0B9"
 --- !u!1 &638290554

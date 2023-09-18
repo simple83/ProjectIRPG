@@ -18,6 +18,9 @@ public class BattleManager : MonoBehaviour
     long enemyHp = 1, enemyAtk = 0, enemyDef = 0, enemyLevel = 1;
     long playerBaseHp = 1, playerCurrentHp = 1, playerAtk = 1, playerDef = 1, playerLuk = 1;
     bool isfighting = false;
+    bool isFightEnd = false;
+    bool isBattleEnd = false;
+
     bool canPlayerAttack = true;
     bool canEnemyAttack = false;
 
@@ -54,7 +57,10 @@ public class BattleManager : MonoBehaviour
                 if(result == false)
                 {
                     Debug.Log("플레이어 승리!");
-                    isfighting = false;
+                    canPlayerAttack = false;
+                    canEnemyAttack = false;
+                    isFightEnd = true;
+                    StartCoroutine(EndBattleAfterClick());
                 }
             }
 
@@ -71,27 +77,52 @@ public class BattleManager : MonoBehaviour
                 if (result == false)
                 {
                     Debug.Log("플레이어 패배...");
-                    isfighting = false;
+                    canPlayerAttack = false;
+                    canEnemyAttack = false;
+                    isFightEnd = true;
+                    StartCoroutine(EndBattleAfterClick());
                 }
+            }
+            if(isBattleEnd)
+            {
+                Debug.Log("배틀UI파괴");
+                battleUI.DestroyBattleUI();
+                isfighting = false;
+                isFightEnd = false;
+                isBattleEnd = false;
+                canPlayerAttack = true;
+                canEnemyAttack = false;
             }
         }
     }
 
     IEnumerator PlayerTurnEnd()
     {
-        yield return new WaitForSeconds(0.8f);
-        canEnemyAttack = true;
+        yield return new WaitForSeconds(0.4f);
+        if (!isFightEnd)
+        {
+            canEnemyAttack = true;
+        }
     }
     IEnumerator EnemyTurnEnd()
     {
-        yield return new WaitForSeconds(0.8f);
-        canPlayerAttack = true;
+        yield return new WaitForSeconds(0.4f);
+        if (!isFightEnd)
+        {
+            canPlayerAttack = true;
+        }
     }
     private IEnumerator StartBattleAfterClick()
     {
         Debug.Log("클릭하여 전투를 시작합니다.");
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
         isfighting = true;
+    }
+    private IEnumerator EndBattleAfterClick()
+    {
+        Debug.Log("클릭하여 전투를 마칩니다.");
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        isBattleEnd = true;
     }
 
     public int StartBattle(GameObject enemy)
@@ -197,7 +228,7 @@ public class BattleManager : MonoBehaviour
         long[] returnarray = { playerhp, playeratk, playerdef, playerluk };
         return returnarray;
     }
-    public void LoadBattleUI(string name, long hp, long atk, long level, Sprite enemyimage)
+    public void LoadBattleUI(string name, long level, long enemyhp, long playerBaseHp, Sprite enemyimage)
     {
         // BattleUI 프리팹 로드 및 적용
         if (battleUIInstance == null)
@@ -208,7 +239,7 @@ public class BattleManager : MonoBehaviour
         BattleUI battleUI = battleUIInstance.GetComponent<BattleUI>();
         if (battleUI != null)
         {
-            battleUI.ShowUI(name, level, hp, atk, enemyimage);
+            battleUI.ShowUI(name, level, enemyhp, playerBaseHp, enemyimage);
         }
         else
         {

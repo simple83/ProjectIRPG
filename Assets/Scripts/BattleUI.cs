@@ -25,10 +25,12 @@ public class BattleUI : MonoBehaviour
 
     }
 
-    public void HideUI()
+    public void DestroyBattleUI()
     {
-        // BattleUI를 비활성화합니다.
-        gameObject.SetActive(false);
+        if (gameObject != null)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void UpdateEnemyHpText(long enemyHp)
